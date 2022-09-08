@@ -26,11 +26,11 @@ Throughout we are also going to learn a bit more about how to format Rmarkdown d
 
 ```{r loadpacks, message=FALSE, results='hide'}
 # Install a load of packages that we'll use. I'll show you a shortcut that I love to use. Try using the p_load function in the "pacman" package. p_load will execute both the install.packages and library commands in one shot so they only need to be used once to install pacman itself.
-install.packages("pacman", repos = "http://cran.us.r-project.org")
-library(pacman)
+#install.packages("pacman", repos = "http://cran.us.r-project.org")
+#library(pacman)
 
 # Install bookdown for rendering because we'll need this. While we're at it, lets also install /load the tidyverse
-p_load(bookdown, tidyverse, ggforce, flextable, latex2exp, png, magick) # basically just list all the packages you want here
+#p_load(bookdown, tidyverse, ggforce, flextable, latex2exp, png, magick) # basically just list all the packages you want here
 
 ```
 
@@ -40,7 +40,7 @@ p_load(bookdown, tidyverse, ggforce, flextable, latex2exp, png, magick) # basica
 
 While the tasks are meant to get you familiar with how *GitHub* works you should try and make regular commits as you work your way through. We want to see how often you're using *Git*. Below, within the `()` brackets provide the link to your GitHub Repo. Just cut and paste it so we know what the repo name is and where it is. 
 
-[My GitHub Repository]()
+[My GitHub Repository](https://github.com/bryn33/biol3207_workshop6)
 
 By adding the link in the `()` brackets it will hyperlink "My GitHub Repository". This is how to hyperlink in Rmarkdown documents.
 
@@ -53,7 +53,7 @@ This task involves cloning your repository on your computer. Where should we pla
 
 ```{r, answer1, echo=TRUE, eval = FALSE}
 
-## Write your answer here. 
+## Github is not a backup service. Github uses a shared responsibility model which involves the user having to secure their own data. Github is used primary for version tracking and collaboration and lacks several important backup capabilities.
 
 ```
 
@@ -64,7 +64,7 @@ Before moving on you might have noticed that the code block above has a name `an
 >**Question 2**: In the second code block called `answer1` if we change echo = TRUE to echo = FALSE what will happen to the code block `answer1` when you render it?
 
 ```{r answer2, echo=TRUE, eval = FALSE}
-# Write your answer here
+# Echo = FALSE prevents code, but not the results from appearing in the finished file and the code does not run.
 ```
 
 **Important**: Notice that `eval = FALSE` for many code chunks. When you complete the tasks. Make sure to change these to `TRUE` otherwise you will find your code does not run!
@@ -93,7 +93,7 @@ Write your answer in the code chunk below:
 
 ```{r, loaddata, eval = FALSE, echo=TRUE}
 
-path <- "replace this text with your relative path to a file in the 'data/' folder"
+path <- "data/OA_activitydat_20190302_BIOL3207.csv"
   
 data <- read_csv(path)
 
@@ -105,7 +105,7 @@ Let's say that you added a new data folder that was inside an output folder (i.e
 
 ```{r, write, eval = FALSE, echo=TRUE}
 
-path <- "replace this text with your relative path"
+path <- "output/data/OA_activitydat_20190302_BIOL3207.cs"
 
 write_csv(data, file = path)
 
@@ -119,16 +119,34 @@ We're ready for some coding! Lets do some coding and wrangling of the `OA_activi
 First, write some code below to remove missing data
 
 ```{r, rmMiss}
-# Code to removing missing data from the `OA_activitydat_20190302_BIOL3207.csv` data frame. 
+data = data %>% filter_at(vars(loc,species,treatment,animal_id,sl,size,activity,comment), all_vars(!(is.na(.))))
 
 ```
 
 Second, drop out irrelevant columns and check that there are no spelling issues in `species` and `treatment`. Create a table of summary data that includes: 1) the mean, 2) the standard error and 3) the sample sizes of unique fish across ALL six fish species for each treatment. This will also help you detect any spelling errors. You can use the R package [`flextable`](https://ardata-fr.github.io/flextable-book/) to print out the results in a nice neat format! If you haven't heard about `flextable` spend 10 or so minutes having a look at it's functionality. It's incredible! You'll use this for tables throughout.
 
 ```{r summaryTab}
+library(dplyr)
+
 # Drop irrelevant columns
 
+#data = select (data,-c(comment,loc))
+
 # Check spelling in species and treatment but also generate a summary table
+
+check_treatment = nrow(data[which(data$treatment != c("control") & data$treatment != c("CO2")), ])
+
+check_species = nrow(data[which(data$species != c("acantho") & data$species != c("ambon") & data$species != c("chromis")& data$species != c("humbug")& data$species != c("lemon")& data$species != c("whitedams")), ])
+
+data %>% group_by(treatment,species) %>% 
+    summarise(
+        mean_sl = mean(sl),
+        std_sl = sd(sl),
+        mean_activity = mean(activity),
+        std_activity = sd(activity),
+    ) 
+
+
 
 # Use flextable to render the summary table in a tidy format
 
