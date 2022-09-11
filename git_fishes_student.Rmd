@@ -29,7 +29,6 @@ Throughout we are also going to learn a bit more about how to format Rmarkdown d
 #install.packages("pacman", repos = "http://cran.us.r-project.org")
 library(pacman)
 #install.packages(raster)
-library(raster)
 
 # Install bookdown for rendering because we'll need this. While we're at it, lets also install /load the tidyverse
 p_load(bookdown, tidyverse, ggforce, flextable, latex2exp, png, magick) # basically just list all the packages you want here
@@ -66,7 +65,7 @@ Before moving on you might have noticed that the code block above has a name `an
 >**Question 2**: In the second code block called `answer1` if we change echo = TRUE to echo = FALSE what will happen to the code block `answer1` when you render it?
 
 ```{r answer2, echo=TRUE, eval = FALSE}
-# Echo = FALSE prevents code, but not the results from appearing in the finished file and the code does not run.
+# Echo = FALSE prevents code, but not the results from appearing in the finished file.
 ```
 
 **Important**: Notice that `eval = FALSE` for many code chunks. When you complete the tasks. Make sure to change these to `TRUE` otherwise you will find your code does not run!
@@ -175,8 +174,8 @@ Ignoring figures can be important because they take up quite a lot of space in y
 `.gitignore` files are used to control what *Git* tracks and what it ignores. You should have created a new folder path: `output/figures/`. Write some code now to create a pretty figure using ggplot that shows the difference between control and acidification treatments for each of the fish species in the data set:
 
 ```{r, prettyfig, fig.align='center', fig.cap="Difference between control and acidications treatments for each species."}
-#plot1 = ggplot(data = sum_table, mapping = aes(x = species, y = mean_activity, color=treatment)) +
-  #geom_point() + annotation_raster()
+plot1 = ggplot(data = sum_table, mapping = aes(x = species, y = mean_activity, color=treatment)) +
+  geom_point()
 
 ```
 
@@ -280,7 +279,7 @@ CO2 = (data[which(data$species == 'humbug' & data$treatment == "CO2"),])
 humbug = t.test(control$activity,CO2$activity)
 
 
-df = data_frame(
+df = tibble(
   species = c("ambon","lemon","chromis","whitedams","acantho","humbug"),
   diff_means = c(abs(ambon$estimate[[1]]-ambon$estimate[[2]]),abs(lemon$estimate[[1]]-lemon$estimate[[2]]),abs(chromis$estimate[[1]]-chromis$estimate[[2]]),abs(whitedams$estimate[[1]]-whitedams$estimate[[2]]),abs(acantho$estimate[[1]]-acantho$estimate[[2]]),abs(humbug$estimate[[1]]-humbug$estimate[[2]])),
   con_int = c(toString(round(ambon$conf.int,2)),toString(round(lemon$conf.int,2)),toString(round(chromis$conf.int,2)),toString(round(whitedams$conf.int,2)),toString(round(acantho$conf.int,2)),toString(round(humbug$conf.int,2))),
@@ -288,14 +287,6 @@ df = data_frame(
   df = c(ambon$parameter,lemon$parameter,chromis$parameter,whitedams$parameter,acantho$parameter,humbug$parameter),
   p_value = c(ambon$p.value,lemon$p.value,chromis$p.value,whitedams$p.value,acantho$p.value,humbug$p.value)
 )
-
-
-
-
-
-
-
-
 
 ```
 
@@ -319,7 +310,7 @@ Mean activity for `r "species name here"` in the control group was `r "add code 
 
 Now, using what you just learnt, describe what the null hypothesis being tested was and provide statistical evidence (t-statistic, df, and p-value) to support your conclusion about whether we can reject the null hypothesis. Again, make sure you use in-line code. Write you answer below:
 
-Mean activity for `r "ambon"` in the control group was `r "ambon$estimate[[1]]"` (s / min) compared to the OA treatment group, which was `r "ambon$estimate[[2]]"` (s / min). The difference between control and OA treatment means was `r "df$diff_means[[1]][1]"` (s / min) (95% CI: `r "ambon$conf.int[[1]]"` to `r "ambon$conf.int[[2]]"`)
+Mean activity for `r "ambon"` in the control group was `r ambon$estimate[[1]]` (s / min) compared to the OA treatment group, which was `r ambon$estimate[[2]]` (s / min). The difference between control and OA treatment means was `r df$diff_means[[1]][1]` (s / min) (95% CI: `r ambon$conf.int[[1]]` to `r ambon$conf.int[[2]]`)
 
 
 Re-analyse the data for a single species using permutations instead of a t-test. Do your results differ?
