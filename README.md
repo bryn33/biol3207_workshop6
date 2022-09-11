@@ -21,7 +21,7 @@ comment - Comment with notes on the origin of the data
 
 The data was initially cleaned up by removing missing data and dropping out irrelevant columns (loc and comment). The data was used to calculate the necessary statistics for study and for t-test analysis in Task 4-9.
 
-The study uses a range of different libraries including pacman, dplyr and flextable.
+The study uses a range of different libraries including pacman, dplyr and flextable. These packages enable library loading/installing and datatable capabilites.
 
 Note: Fish standard length (SL) data were measured directly in some experiments (e.g., 2016) and estimated from regression relationships in others.  
 For example, the Acanthochromis polyacanthus used in choice flume experiments in 2015 arrived in the lab at a very uniform size, and batches of fish 
