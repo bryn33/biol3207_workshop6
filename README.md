@@ -5,9 +5,11 @@ The generally workflow of the study utilises the dataset "OA_activitydat_2019030
 The dataset is on ocean acidification effects on fish behaviour that was published in Nature in 2020. The dataset includes several columns including loc, species, treatment, animal_id, sl, size, activity and a comment. More details can be found below:
 
 loc - Location, and year, where the data were collected. AIMS = Australian Institute of Marine Science; LIRS = Lizard Island Research Station
+
 species - Species name: acantho = Acanthochromis; Ambon = Pomacentrus amboinensis; Chromis = Chromis atripectoralis; Humbug = Dascyllus aruanus; Lemon = Pomacentrus moluccensis
 
 treatment - 	Elevated CO2 [CO2] (850-1,050 µatm) or control [Control] (400 - 450 µatm) groups
+
 animal_id - Fish identity
 
 sl - Standard length of the fish in mm
