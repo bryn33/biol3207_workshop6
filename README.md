@@ -1,6 +1,6 @@
 # biol3207_workshop6
 
-The generally workflow of the study utilises the dataset "OA_activitydat_20190302_BIOL3207.csv". Initially the dataset is loaded in in Task 3. This is to load the dataset object into the R studio space allowing more data wrangling and manipulation of the dataset. Github was used to track changes to the R studio document throughout the study and saved to my person Github account.
+The generally workflow of the study utilises the dataset "OA_activitydat_20190302_BIOL3207.csv". **If replicating the study, use this dataset**. Initially the dataset is loaded in in Task 3. This is to load the dataset object into the R studio space allowing more data wrangling and manipulation of the dataset. Github was used to track changes to the R studio document throughout the study and saved to my person Github account.
 
 The dataset is on ocean acidification effects on fish behaviour that was published in Nature in 2020. The dataset includes several columns including loc, species, treatment, animal_id, sl, size, activity and a comment. More details can be found below:
 
